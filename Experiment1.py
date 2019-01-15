@@ -1,7 +1,6 @@
 #Experiment 1, a Dice Roller app
 
 from random import randint
-from random import seed
 
 #Ask user how many Dice
 x = int(input("How many Dice do you wish to roll: "))
@@ -30,7 +29,6 @@ def validate(z):
 #Calculate the sum of dice
 def totalSum(count, sides):
     sum = 0
-    seed(count + 1)
     for n in range(count):
         value = randint(0, sides)
         sum = sum + value
