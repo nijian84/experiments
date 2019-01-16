@@ -11,11 +11,12 @@ dieSides = {"d4" : 4, "d6" : 6, "d8" : 8, "d10" : 10, "d12" : 12, "d20" : 20, "d
 
 def userInput():
     #Ask user how many Dice
-    x = int(input("How many Dice do you wish to roll:  ? (enter 0 to quit)"))
+    x = int(input("How many Dice do you wish to roll? (enter 0 to quit) "))
     if x > 0:
         print("You wish to roll " + str(x) + " dice.")
     else:
         print("Quitting...")
+        return (x, 0)
     
     #List Valid dice choice
     for n in dieSides:
@@ -24,9 +25,13 @@ def userInput():
     #Ask for input
     y = int(input("Which dice would you like to roll? d"))
     response = str(y)
-    
+
+    #Validate input is valid dice, until valid
+    while validate(y) == 0:
+        y = int(input("Please enter a valid dice value. Which dice would you like to roll? d"))
+
     #Returns input Values
-    return (x, y, response)
+    return (x, y)
 
 #Check input for Valid dice choice
 def validate(z):
@@ -39,25 +44,22 @@ def validate(z):
 def totalSum(count, sides):
     sum = 0
     for n in range(count):
-        value = randint(0, sides)
+        value = randint(1, sides)
         sum = sum + value
     return(sum)
 
-#Invoke userInput function and map responses to Variables
+#Main function
+def main():
+    j = 1
+    while j >= 1:
+        (a,b) = userInput()
+        if a >= 1:
+            result = totalSum(a, b)
+            print("Your roll was: " + str(result))                
+        if a == 0:
+            print("Thanks for using DiceRoller.")
+            break
 
-(a,b,c) = userInput()
-
-
-
-#Run Validate function
-
-
-
-if validate(b) == 1:
-    result = totalSum(a, b)
-    print("Your roll was: " + str(result))
-else:
-    print("Input invalid: " + c)
-
-
-#if __name__ == '__main__': main()
+#Invoke Main function
+if __name__ == "__main__":
+  main()
