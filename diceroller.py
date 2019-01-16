@@ -11,24 +11,38 @@ dieSides = {"d4" : 4, "d6" : 6, "d8" : 8, "d10" : 10, "d12" : 12, "d20" : 20, "d
 
 def userInput():
     #Ask user how many Dice
-    x = int(input("How many Dice do you wish to roll? (enter 0 to quit) "))
-    if x > 0:
-        print("You wish to roll " + str(x) + " dice.")
-    else:
-        print("Quitting...")
-        return (x, 0)
-    
-    #List Valid dice choice
-    for n in dieSides:
-        print(n)
+    while True:
+        try:
+            x = int(input("How many Dice do you wish to roll? (enter 0 to quit) "))
+        except ValueError:
+            print("Please enter in a valid number.")
+            continue
+        else:            
+            if x > 0:
+                print("You wish to roll " + str(x) + " dice.")
+                for n in dieSides:
+                    print(n)
+                break
+            else:
+                print("Quitting...")
+                return (x, 0)
 
     #Ask for input
-    y = int(input("Which dice would you like to roll? d"))
-    response = str(y)
+    while True:
+        try:
+            y = int(input("Which dice would you like to roll? d"))
+        except ValueError:
+            print("Please enter a valid number.")
+            continue
+        else:
+            break
 
     #Validate input is valid dice, until valid
-    while validate(y) == 0:
-        y = int(input("Please enter a valid dice value. Which dice would you like to roll? d"))
+    while validate(int(y)) == 0:
+        print("Please enter in a valid choice, from the list:")
+        for n in dieSides:
+            print(n)
+        y = int(input("Which dice would you like to roll? d"))
 
     #Returns input Values
     return (x, y)
