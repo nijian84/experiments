@@ -3,76 +3,104 @@
 #Import randint from Random functions
 from random import randint
 
-#Define the main application
-#def main():
-
 #Declare valid Dice range
-dieSides = {"d4" : 4, "d6" : 6, "d8" : 8, "d10" : 10, "d12" : 12, "d20" : 20, "d100" : 100}
+VALID_DICE = [4, 6, 8, 10, 12, 20, 100]
 
-def userInput():
-    #Ask user how many Dice, with Validation input
+#Input for number of rolls
+def user_input():
+    """
+    user_input: Prompts the user for input for number of rolls
+    Arguments: None
+    Returns: diceCount: int
+    """
     while True:
+        #Prompt user input
         try:
-            x = int(input("How many Dice do you wish to roll? (enter 0 to quit) "))
+            diceCount = int(input("How many Dice do you wish to roll? (enter 0 to quit) "))
+        #Validates int
         except ValueError:
             print("Please enter in a valid number.")
             continue
-        else:            
-            if x > 0:
-                print("You wish to roll " + str(x) + " dice.")
-                for n in dieSides:
-                    print(n)
-                break
+        #Declare count or quit application
+        else:
+            if diceCount > 0:
+                print(f"You wish to roll {diceCount} dice.")
+                for n in VALID_DICE:
+                    print(f"d{n}")
+                return diceCount
             else:
                 print("Quitting...")
-                return (x, 0)
+                diceCount = 0
+                return diceCount
 
-    #Ask for input on what Dice to roll, with Validation Input
+#Input for which dice to use
+def dice_input():
+    """
+    user_input: Prompts the user for input for type of dice
+    Arguments: None
+    Returns: diceChoice: int
+    """
     while True:
+        #Prompt for dice type choice
         try:
-            y = int(input("Which dice would you like to roll? d"))
+            diceChoice = int(input("Which dice would you like to roll? d"))
+        #Validates int
         except ValueError:
             print("Please enter a valid number.")
             continue
+        #Displays choice, or prompts for Valid choice
         else:
-            break
+            if valid_dice_checker(diceChoice):
+                print(f"You chose: d{diceChoice}")
+                return diceChoice
+            else:
+                print("Please enter in a valid choice, from the list.")
+                for n in VALID_DICE:
+                    print(f"d{n}")
 
-    #Validate input is valid dice, until valid
-    while validate(int(y)) == 0:
-        print("Please enter in a valid choice, from the list:")
-        for n in dieSides:
-            print(n)
-        y = int(input("Which dice would you like to roll? d"))
+#Validate dice sides input
+def valid_dice_checker(choice):
+    """
+    Simple validation of dice choice
+    Args: choice from dice_input
+    Returns: boolean
+    """
+    return choice in VALID_DICE
 
-    #Returns input Values
-    return (x, y)
-
-#Check input for Valid dice choice (this might not even be needed)
-def validate(z):
-    if z in iter(dieSides.values()):
-        return 1
-    else:
-        return 0
-
-#Calculate the sum of dice
-def totalSum(count, sides):
+#Calculate Sum of # of dice and sides of dice
+def total_sum(count, sides):
+    """
+    Simple math
+    Args: count from user_input and sides from dice_input
+    Returns: sum: int
+    """
     sum = 0
-    for n in range(count):
+    #Takes number of rolls and randint in range of the dice type
+    for _ in range(count):
         value = randint(1, sides)
         sum = sum + value
     return(sum)
 
-#Main function
 def main():
+    """
+    Main function, prompts user input, quits if 0, or displays sum of rolls, and repeats until quit
+    Args: None
+    Returns: None
+    """
     j = 1
     while j >= 1:
-        (a,b) = userInput()
-        if a >= 1:
-            result = totalSum(a, b)
-            print("Your roll was: " + str(result))                
-        if a == 0:
+        #Prompt rolls input
+        diceCount = user_input()
+        #If rolls is 0, then quit
+        if diceCount == 0:
             print("Thanks for using DiceRoller.")
             break
+        #Prompts type of dice
+        diceChoice = dice_input()
+        #Passes in args and calculates sum
+        if diceCount >= 1:
+            result = total_sum(diceCount, diceChoice)
+            print(f"Your roll was: {result}")
 
 #Invoke Main function
 if __name__ == "__main__":
