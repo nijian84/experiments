@@ -10,7 +10,7 @@ from random import randint
 dieSides = {"d4" : 4, "d6" : 6, "d8" : 8, "d10" : 10, "d12" : 12, "d20" : 20, "d100" : 100}
 
 def userInput():
-    #Ask user how many Dice
+    #Ask user how many Dice, with Validation input
     while True:
         try:
             x = int(input("How many Dice do you wish to roll? (enter 0 to quit) "))
@@ -27,7 +27,7 @@ def userInput():
                 print("Quitting...")
                 return (x, 0)
 
-    #Ask for input
+    #Ask for input on what Dice to roll, with Validation Input
     while True:
         try:
             y = int(input("Which dice would you like to roll? d"))
@@ -47,7 +47,7 @@ def userInput():
     #Returns input Values
     return (x, y)
 
-#Check input for Valid dice choice
+#Check input for Valid dice choice (this might not even be needed)
 def validate(z):
     if z in iter(dieSides.values()):
         return 1
